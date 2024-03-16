@@ -75,6 +75,8 @@ public class NhanVienInterface extends javax.swing.JFrame {
         rdoNu2 = new javax.swing.JRadioButton();
         jLabel49 = new javax.swing.JLabel();
         txtChucVu2 = new javax.swing.JTextField();
+        btnDelete = new javax.swing.JButton();
+        btnChange = new javax.swing.JButton();
         jScrollPane9 = new javax.swing.JScrollPane();
         tblNhanVien = new javax.swing.JTable();
 
@@ -465,6 +467,20 @@ public class NhanVienInterface extends javax.swing.JFrame {
 
         jLabel49.setText("Giới tính");
 
+        btnDelete.setText("Xóa Nhân Viên");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        btnChange.setText("Sửa Thông Tin Nhân Viên");
+        btnChange.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChangeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -488,6 +504,10 @@ public class NhanVienInterface extends javax.swing.JFrame {
                     .addComponent(txtMa2)
                     .addComponent(txtHoTen2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                        .addComponent(btnChange)
+                        .addGap(9, 9, 9)
+                        .addComponent(btnDelete)
+                        .addGap(7, 7, 7)
                         .addComponent(btnThem2)
                         .addGap(89, 89, 89))
                     .addComponent(cbbPhongBan2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -524,7 +544,10 @@ public class NhanVienInterface extends javax.swing.JFrame {
                     .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel46))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-                .addComponent(btnThem2)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnThem2)
+                    .addComponent(btnDelete)
+                    .addComponent(btnChange))
                 .addContainerGap())
         );
 
@@ -673,6 +696,51 @@ public class NhanVienInterface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        try {
+            if (QLNVService.listNhanVien.size() == 0) {
+                JOptionPane.showMessageDialog(this, "Không còn dữ liệu để xóa");
+                return;
+            }
+            int hoi = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa?");
+            if (hoi != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            if (QLNVService.deleteEmployee(index)) {
+                JOptionPane.showMessageDialog(this, "xóa thành công");
+                fillToTable();
+                if (QLNVService.listNhanVien.size() > 0) {
+                    index = 0;
+                    showDetail();
+                } else {
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Không xóa được");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "lỗi xóa");
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeActionPerformed
+        // TODO add your handling code here:
+        try {
+            NhanVien nv = readForm();
+            if (QLNVService.updateEmployee(nv, index)) {
+                JOptionPane.showMessageDialog(this, "sửa thành công");
+                fillToTable();
+                showDetail();
+            } else {
+                JOptionPane.showMessageDialog(this, "Không sửa được");
+            }
+           
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "lỗi sửa");
+        }
+    }//GEN-LAST:event_btnChangeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -709,8 +777,10 @@ public class NhanVienInterface extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnChange;
     private javax.swing.JButton btnCreate2;
     private javax.swing.JButton btnCreate4;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnThem2;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbbPhongBan2;
