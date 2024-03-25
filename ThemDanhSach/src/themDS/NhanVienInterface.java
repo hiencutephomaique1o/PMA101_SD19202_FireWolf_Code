@@ -694,6 +694,7 @@ public class NhanVienInterface extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Loi Click Table");
         }
+        
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
